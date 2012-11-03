@@ -18,3 +18,20 @@
 #display div.cell.alive {
 	background-color: red;
 }
+
+#ctrl {
+	margin-top: 10px;
+	float: left;
+	clear: left;
+}
+
+#ctrl div{
+	float: left;
+	background-color: #bbb;
+	padding: 5px 10px;
+	margin-right: 10px;
+}
+
+#ctrl div:hover{
+	cursor: pointer
+}

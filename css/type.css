@@ -1,0 +1,151 @@
+/*
+Type CSS for site
+by Marcus Kielly
+http://deckchair.co.uk
+*/
+
+/* Font Families */
+/*----------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: 'CartoGothic';
+	src: url('./../fonts/CartoGothicStd-Bold-webfont.ttf');
+}
+
+body,textarea {
+    font-family: Myriad Web Pro, Arial, Verdana,  Lucida Grande, Helvetica, sans-serif;
+}
+
+
+div#nav_main ul li,
+h1,h2,h3
+{
+    font-family: CartoGothic;
+}
+
+
+/* Font Sizes */
+/*----------------------------------------------------------------------------*/
+
+div#four_oh_four h1{
+    font-size: 186px;
+}
+
+h1
+{
+    font-size: 36px;
+}
+
+h2
+{
+    font-size: 28px;
+}
+
+
+h3
+{
+    font-size: 22px;
+}
+
+h4, div#about p,
+div#portfolio div#project_info ul li
+{
+    font-size: 18px;
+}
+
+h5
+{
+    font-size: 16px;
+}
+
+h6,div#project_launch a,
+div#project_info a,
+div#project_info a.btn_shadow,
+div#portfolio div#project_info p,
+div#agency a#btn_agency
+{
+    font-size: 14px;
+}
+
+p, em, blockquote, strong, ul, ol, dl, a, label,textarea
+{
+    font-size: 12px;
+}
+
+
+
+/* FONT COLOURS */
+/*----------------------------------------------------------------------------*/
+
+/*grey*/
+div#nav_main ul li, h3, p, dl, label,
+input.text, textarea,
+div.pagination a,
+div#project_info,
+div#project_info a{
+    color: #878D91;
+}
+
+/* logo brown */
+h2,div#project_info h3{
+    color: #362F2D;
+}
+
+/* white */
+ input.submit, div#portfolio div#project_info *,div#footer a#here,
+div.pagination a.current_page,
+div#agency a#btn_agency,div#project_info a.btn_shadow{
+    color:#fff;
+}
+
+/* turqouise */
+div#skills dt{
+    color: #4f97a4;
+}
+
+/* deep red */
+span.error,
+div#four_oh_four h1{
+    color: #ED1C24;
+}
+
+/* FONT WEIGHTS */
+/*----------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6, dt,label, input.submit,
+div#portfolio div#project_info p, div#portfolio div#project_info ul li,div#project_launch a,
+div#project_info a.btn_shadow,
+a#here,
+div.pagination a,
+div#agency a#btn_agency,
+div#project_info a
+{
+    font-weight: 700;
+}
+
+/* LINE HEIGHT */
+/*----------------------------------------------------------------------------*/
+p, em, blockquote, strong, ul, ol, dl
+{
+    line-height: 18px;
+}
+
+div#about p{
+    line-height: 25px;
+}
+
+div#portfolio div#project_info p,
+div#portfolio div#project_info ul li{
+    line-height: 22px;
+}
+
+/* -9999px */
+/*----------------------------------------------------------------------------*/
+.button{
+    display:block;
+    font-size:0;
+    line-height:0;
+    text-indent:-9999px;
+}
+
+
+

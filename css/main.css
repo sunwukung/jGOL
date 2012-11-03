@@ -1,0 +1,102 @@
+
+
+/* CENTERING */
+/*----------------------------------------------------------------------------*/
+.content{
+    width: 940px;
+    margin: 0 auto;
+}
+
+div#content,
+header .content {
+    padding: 10px;
+}
+
+footer .content {
+    padding: 5px 10px 5px 10px;
+    height: 20px;
+}
+
+body
+{
+    background-color: #ececec;
+}
+
+header .content
+{
+    height: 150px;
+}
+
+
+/* COMMON ELEMENTS */
+/*----------------------------------------------------------------------------*/
+
+/* HEADERS */
+
+h1, h2, h3, h4, h5, h6
+{
+    margin-bottom: 10px;
+}
+
+/* BODY TEXT */
+
+p, blockquote
+{
+    margin-bottom: 10px;
+}
+
+/* ANCHORS */
+a
+{
+    outline: none;
+    text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration: underline;
+}
+
+
+
+/* LISTS */
+.no_bullet
+{
+    list-style-type: none;
+}
+
+ul
+{
+    list-style: inside;
+}
+
+ol
+{
+    margin-left: 20px;
+}
+
+ul, ol, dl
+{
+    margin-bottom: 20px;
+}
+
+dl{
+    text-indent: 10px;
+}
+
+dt
+{
+    margin-top: 10px;
+}
+
+
+/* MAIN CONTENT AREA */
+/*----------------------------------------------------------------------------*/
+
+h2{
+    width:100%;
+    float: left;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d3d4d5;
+    margin-bottom: 40px;
+}

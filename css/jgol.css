@@ -1,0 +1,20 @@
+#display {
+	border-top: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	float: left;
+}
+#display div.row {
+	float: left;
+	clear; left;
+}
+#display div.cell {
+	width: 10px;
+	height: 10px;
+	border-bottom: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+	float: left;
+}
+
+#display div.cell.alive {
+	background-color: red;
+}

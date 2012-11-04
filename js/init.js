@@ -4,11 +4,12 @@ var display,
 	alive,
 	dead, 
 	update,
-	ticker;
+	ticker,
+	size = 10;
 
 display = document.getElementById('display');
 
-fieldData = jgol.generateField(50);
+fieldData = jgol.generateField(size);
 
 jgol.update(fieldData);
 
@@ -69,9 +70,16 @@ $('#stop').click(function () {
 	window.clearInterval(ticker);
 });
 
+$('#step').click(function () {
+	window.clearInterval(ticker);
+	fieldData = jgol.nextState(fieldData);
+	update(fieldData);
+})
+
 
 $('#reset').click(function () {
-	var fresh = jgol.generateField(50);
+	window.clearInterval(ticker);
+	var fresh = jgol.generateField(size);
 	update(fresh);
 });
 

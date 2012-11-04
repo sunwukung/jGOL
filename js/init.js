@@ -5,7 +5,11 @@ var display,
 	dead, 
 	update,
 	ticker,
-	size = 50;
+	size = 50,
+	start = $('#start'), 
+	stop = $('#stop'), 
+	step = $('#step'),
+	reset = $('#reset');
 
 display = document.getElementById('display');
 
@@ -58,25 +62,27 @@ $(display).delegate('div.cell', 'click', function () {
 
 // handle controls
 
-$('#start').click(function () {
+start.click(function (ev) {
+	start.addClass('active');
 	ticker = window.setInterval(function () {
 		fieldData = jgol.nextState(fieldData);
 		update(fieldData);
 	}, 100);
 });
 
-$('#stop').click(function () {
+stop.click(function () {
+	start.removeClass('active');
 	window.clearInterval(ticker);
 });
 
-$('#step').click(function () {
+step.click(function () {
 	window.clearInterval(ticker);
 	fieldData = jgol.nextState(fieldData);
 	update(fieldData);
 })
 
 
-$('#reset').click(function () {
+reset.click(function () {
 	window.clearInterval(ticker);
 	var fresh = jgol.generateField(size);
 	update(fresh);

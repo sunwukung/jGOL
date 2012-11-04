@@ -19,6 +19,10 @@
 	background-color: red;
 }
 
+#ctrl .active {
+	background-color: red;
+}
+
 #ctrl {
 	margin-top: 10px;
 	float: left;

@@ -1,5 +1,11 @@
 var jgol = (function (jgol) {
 
+	var logging = false,
+		jlog = function (msg) {
+			if (logging) {
+				console.log(msg);
+			}
+		};
 
 	jgol.normalise = function (origin, delta, boundary) {
 		// calculate position @delta relative to origin
@@ -34,7 +40,7 @@ var jgol = (function (jgol) {
 	};
 
 	jgol.nextState = function (state) {
-		// return next state
+		// return nextState state
 		var newState = [],			
 			newRow,
 			newCell,
@@ -44,27 +50,37 @@ var jgol = (function (jgol) {
 			newRow = _.map(row, function (cell) {
 
 				nLen = jgol.neighbours(cell, state);
-				console.log(nLen);
 
 				newCell = {
 					x : cell.x,
-					y : cell.y
+					y : cell.y,
+					alive : false
 				};
 
 				if(cell.alive) {
-					console.log('dying');
+					// LIVING CELLS
+					jlog('this cell is alive');
+					jlog('cell @ x' + cell.x +  ':y' + cell.y + ' has ' + nLen + ' neighbours');
 					if(nLen < 2 || nLen > 3) {
+						jlog('this cell must die');
 						newCell.alive = false;
+					} else {
+						newCell.alive = true;
+						jlog('this cell will survive');
 					}
+
 				} else {
-					console.log('living');
+					// DEAD CELLS
+					jlog('this cell is dead');
 					if(nLen === 3) {
 						newCell.alive = true;
 					} else {
 						// some are falling through here...
-						console.log('something else is happening');
+						newCell.alive = false;
+						jlog('cell remains dead');
 					}
 				}
+
 				return newCell;
 			});
 			return newRow;

@@ -5,7 +5,7 @@ var display,
 	dead, 
 	update,
 	ticker,
-	size = 5;
+	size = 50;
 
 display = document.getElementById('display');
 

@@ -26,6 +26,16 @@
 	clear: left;
 }
 
+#intro {
+	float: left;
+	clear: left;
+}
+#intro p {
+	color: #000;
+	padding: 20px 0px;
+	font-size: 14px;
+}
+
 #ctrl #show.active{
 	background-color: green;
 }

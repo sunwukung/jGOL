@@ -4,7 +4,8 @@ var jgol = (function (jgol) {
 		generateRows,
 		generateField,
 		generateFragment,
-		locate,
+		normalise,
+		nextState,
 		update;
 
 
@@ -85,7 +86,7 @@ var jgol = (function (jgol) {
 	};
 
 
-	update = function (state) {
+	nextState = function (state) {
 		// return next state
 		var newState = [],
 			boundary = state.length - 1,// array compensation
@@ -104,6 +105,8 @@ var jgol = (function (jgol) {
 					nY = normalise(cell.y, xy.y, boundary);
 					return state[nY][nX].alive === true;
 				}).length;
+
+				
 				if(cell.alive) {
 					if(nLen < 2 || nLen > 3) {
 						cell.alive = false;
@@ -115,19 +118,25 @@ var jgol = (function (jgol) {
 				}
 				return cell;
 			});
+
 			return newRow;
 			
 		});
-		//cells
 
 		return newState;
 	};
 
+	update = function () {
 
-	jgol.generateField = generateField;
+	};
+
+
+	jgol.generateField    = generateField;
 	jgol.generateFragment = generateFragment;
-	jgol.normalise = normalise;
-	jgol.update = update;
+	jgol.normalise        = normalise;
+	jgol.update           = update;
+	jgol.nextState        = nextState;
+	
 	return jgol;
 
 }(jgol || {}));

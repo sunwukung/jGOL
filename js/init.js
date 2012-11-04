@@ -11,8 +11,6 @@ display = document.getElementById('display');
 
 fieldData = jgol.generateField(size);
 
-jgol.update(fieldData);
-
 frag = jgol.generateFragment(fieldData);
 display.appendChild(frag);
 

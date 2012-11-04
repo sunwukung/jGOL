@@ -42,7 +42,7 @@ test('generateField', function () {
 test('normalise', function () {
 	equal(jgol.normalise(1, -1, 10), 0, 'jgol.normalise adjusts arg1 value by arg2');
 	equal(jgol.normalise(0, -1, 10), 10, 'jgol.normalise wraps negative values around boundary');
-	equal(jgol.normalise(10, 1, 10), 1, 'jgol.normalise wraps positive values around boundary');
+	equal(jgol.normalise(10, 1, 9), 1, 'jgol.normalise wraps positive values around boundary');
 });
 
 

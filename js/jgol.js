@@ -21,7 +21,7 @@ var jgol = (function (jgol) {
 		if(diff < 0) {
 			norm = (boundary + diff) + 1; // array compensation
 		} else if (diff > boundary) {
-			norm = diff - boundary;
+			norm = diff - boundary - 1;
 		} 
 		return norm;
 	};

@@ -3,11 +3,12 @@ var display,
 	frag,
 	alive,
 	dead, 
-	update;
+	update,
+	ticker;
 
 display = document.getElementById('display');
 
-fieldData = jgol.generateField(5);
+fieldData = jgol.generateField(50);
 
 jgol.update(fieldData);
 
@@ -27,23 +28,18 @@ dead = function (el, col, row) {
 update = function (nextState) {
 	var r = 0,
 		c = 0;
-
 	_.map(display.children, function (row) {
 		_.map(row.children, function (cell) {
 			if(nextState[r][c].alive){
-				console.log('live');
 				alive(cell, c, r);
 			} else {
-				console.log('dead');
 				dead(cell, c, r);
 			}
 			c = c+1;
-			return;
 		});
 		c = 0;
 		r = r+1;
 	});
-	return fieldData;
 };
 
 
@@ -63,17 +59,23 @@ $(display).delegate('div.cell', 'click', function () {
 // handle controls
 
 $('#start').click(function () {
-	var t, i=1, limit=20;
-	t = window.setInterval(function () {
-		console.log('tick');
+	ticker = window.setInterval(function () {
+		fieldData = jgol.nextState(fieldData);
 		update(fieldData);
-
-		if(i >= limit) {
-			window.clearInterval(t);
-		}
-		i = i+1;
 	}, 100);
 });
+
+$('#stop').click(function () {
+	window.clearInterval(ticker);
+});
+
+
+$('#reset').click(function () {
+	var fresh = jgol.generateField(50);
+	update(fresh);
+});
+
+
 
 
 

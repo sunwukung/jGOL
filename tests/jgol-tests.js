@@ -68,6 +68,22 @@ test('neighbours', function () {
 
 });
 
+test('neighbours:wrap', function () {
+	var localState = cloneMe(this.startState),
+		numN;
+
+	localState[0][0].alive = true;
+	localState[4][4].alive = true;
+	localState[0][4].alive = true;
+	localState[4][0].alive = true;
+
+	numN = jgol.neighbours(
+		localState[0][0],//centre cell
+		localState);
+
+	equal(numN, 3, 'jgol.neighbours detects boundary wrapped neighbours');
+});
+
 
 
 test('nextState:death', function () {

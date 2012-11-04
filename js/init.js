@@ -5,15 +5,17 @@ var display,
 	dead, 
 	update,
 	ticker,
-	size = 50,
+	fieldSize = 10,
+	fieldLimit = 50,
 	start = $('#start'), 
 	stop = $('#stop'), 
 	step = $('#step'),
-	reset = $('#reset');
+	reset = $('#reset'), 
+	size = $('#size');
 
 display = document.getElementById('display');
 
-fieldData = jgol.generateField(size);
+fieldData = jgol.generateField(fieldSize);
 
 frag = jgol.generateFragment(fieldData);
 display.appendChild(frag);
@@ -84,9 +86,33 @@ step.click(function () {
 
 reset.click(function () {
 	window.clearInterval(ticker);
-	var fresh = jgol.generateField(size);
+	var fresh = jgol.generateField(fieldSize);
 	update(fresh);
 });
+
+size.submit(function () {
+	window.clearInterval(ticker);
+
+	var v = $("input:first").val(),
+		fresh;
+	if ($.isNumeric(v)) {
+		if(v <= fieldLimit) {
+
+		v = (v % 2 > 0) ? Math.floor(v / 2) * 2 : v;
+		fieldSize = v;
+		
+		fieldData = jgol.generateField(fieldSize);
+		frag = jgol.generateFragment(fieldData);
+
+		display.innerHTML='';
+		display.appendChild(frag);
+		}
+	}
+
+	return false;
+});
+
+
 
 
 

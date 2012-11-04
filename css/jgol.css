@@ -14,28 +14,28 @@
 	border-right: 1px solid #aaa;
 	float: left;
 }
-
 #display div.cell.alive {
 	background-color: red;
 }
-
+#size{
+	float: left;
+	clear: left;
+}
 #ctrl .active {
 	background-color: red;
 }
-
 #ctrl {
 	margin-top: 10px;
 	float: left;
 	clear: left;
+	padding: 10px 0px;
 }
-
 #ctrl div{
 	float: left;
 	background-color: #bbb;
 	padding: 5px 10px;
 	margin-right: 10px;
 }
-
 #ctrl div:hover{
 	cursor: pointer
 }

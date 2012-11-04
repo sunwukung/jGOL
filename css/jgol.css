@@ -14,12 +14,20 @@
 	border-right: 1px solid #aaa;
 	float: left;
 }
+#display div.cell.scan {
+	background-color: cyan;	
+}
 #display div.cell.alive {
 	background-color: red;
 }
+
 #size{
 	float: left;
 	clear: left;
+}
+
+#ctrl #show.active{
+	background-color: green;
 }
 #ctrl .active {
 	background-color: red;

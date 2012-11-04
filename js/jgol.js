@@ -5,7 +5,12 @@ var jgol = (function (jgol) {
 			if (logging) {
 				console.log(msg);
 			}
-		};
+		},
+		nDelta = [// neighbour position delta
+			{x:-1, y:-1}, {x:0, y:-1}, {x:1, y:-1},//top row
+			{x:-1, y:0},{x:1, y:0},//middle row
+			{x:-1, y:1}, {x:0, y:1}, {x:1, y:1},// last row
+		];
 
 	jgol.normalise = function (origin, delta, boundary) {
 		// calculate position @delta relative to origin
@@ -21,15 +26,21 @@ var jgol = (function (jgol) {
 		return norm;
 	};
 
+	jgol.getNeighbours = function (cell, state) {
+		var boundary = state.length - 1,// array compensation
+			nX, nY;
+		
+		return _.map(nDelta, function (xy) {
+			nX = jgol.normalise(cell.x, xy.x, boundary);
+			nY = jgol.normalise(cell.y, xy.y, boundary);
+			return state[nY][nX];
+			});
+	};
+
 
 	jgol.neighbours = function (cell, state) {
 		// establish number of living neighbours
-		var nDelta = [// neighbour position delta
-				{x:-1, y:-1}, {x:0, y:-1}, {x:1, y:-1},//top row
-				{x:-1, y:0},{x:1, y:0},//middle row
-				{x:-1, y:1}, {x:0, y:1}, {x:1, y:1},// last row
-			],
-			boundary = state.length - 1,// array compensation
+		var boundary = state.length - 1,// array compensation
 			nX, nY;
 		
 		return _.filter(nDelta, function (xy) {

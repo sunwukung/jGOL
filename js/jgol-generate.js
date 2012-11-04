@@ -64,6 +64,8 @@ var jgol = (function (jgol) {
 
 	};
 
+
+
 	return jgol;
 
 }(jgol || {}));

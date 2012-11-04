@@ -1,19 +1,20 @@
-var display, 
+var display = document.getElementById('display'), 
 	fieldData, 
 	frag,
 	alive,
 	dead, 
+	scan,
 	update,
 	ticker,
-	fieldSize = 10,
+	fieldSize  = 10,
 	fieldLimit = 50,
 	start = $('#start'), 
-	stop = $('#stop'), 
-	step = $('#step'),
+	stop  = $('#stop'), 
+	step  = $('#step'),
 	reset = $('#reset'), 
-	size = $('#size');
-
-display = document.getElementById('display');
+	size  = $('#size'),
+	show  = $('#show'),
+	showNeighbours = false;
 
 fieldData = jgol.generateField(fieldSize);
 
@@ -49,16 +50,27 @@ update = function (nextState) {
 };
 
 
-
-
 //hook up interface
 $(display).delegate('div.cell', 'click', function () {
 	var that = $(this),
 		id = that.attr('id'),
 		xy = id.split('-'),
-		col = xy[0].replace('x', ''),
-		row = xy[1].replace('y', '');
-	that.hasClass('alive') ? dead(that, col, row): alive(that, col, row);
+		col = Number(xy[0].replace('x', '')),
+		row = Number(xy[1].replace('y', '')),
+		neighbours,
+		id;
+	if(showNeighbours){
+		$('.scan').removeClass('scan');
+		neighbours = jgol.getNeighbours({x:col, y:row}, fieldData);
+		$('#x' + col + '-y' + row).addClass('scan');
+		_.map(neighbours, function (i){
+			id = '#x' + i.x + '-y' + i.y;
+			$(id).addClass('scan');
+		});
+		//add the scan class to the zone
+	} else {
+		that.hasClass('alive') ? dead(that, col, row): alive(that, col, row);
+	}
 });
 
 
@@ -112,10 +124,14 @@ size.submit(function () {
 	return false;
 });
 
-
-
-
-
-
-
-
+show.click(function () {
+	// toggles neighbour scan
+	showNeighbours = showNeighbours ? false : true;
+	if(show.hasClass('active')){
+		// remove scan class
+		$('.scan').removeClass('scan');
+		show.removeClass('active');
+	}else {
+		show.addClass('active');
+	}
+});

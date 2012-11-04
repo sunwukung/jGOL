@@ -86,11 +86,13 @@ var jgol = (function (jgol) {
 	};
 
 
+	// or the problem is here
 	nextState = function (state) {
 		// return next state
 		var newState = [],
 			boundary = state.length - 1,// array compensation
 			newRow,
+			newCell,
 			nDelta = [// neighbour position delta
 				{x:-1, y:-1}, {x:0, y:-1}, {x:1, y:-1},//top row
 				{x:-1, y:0},{x:1, y:0},//middle row
@@ -100,27 +102,43 @@ var jgol = (function (jgol) {
 
 		newState = _.map(state, function (row) {
 			newRow = _.map(row, function (cell) {
+
+				// get number of alive neighbours
 				nLen = _.filter(nDelta, function (xy) {
 					nX = normalise(cell.x, xy.x, boundary);
 					nY = normalise(cell.y, xy.y, boundary);
 					return state[nY][nX].alive === true;
 				}).length;
 
-				
+				console.log('cell mutation');
+				console.log(nLen);
+
+				newCell = {
+					x : cell.x,
+					y : cell.y
+				};
+
 				if(cell.alive) {
+					console.log('dying');
 					if(nLen < 2 || nLen > 3) {
-						cell.alive = false;
+						newCell.alive = false;
 					}
 				} else {
+					console.log('living');
 					if(nLen === 3) {
-						cell.alive = true;
+						newCell.alive = true;
+					} else {
+						// some fall through here...
+						console.log('something else is happening');
 					}
 				}
-				return cell;
+				console.log('original');
+				console.log(cell);
+				console.log('new')
+				console.log(newCell);
+				return newCell;
 			});
-
 			return newRow;
-			
 		});
 
 		return newState;

@@ -5,7 +5,7 @@ var display,
 	dead, 
 	update,
 	ticker,
-	size = 10;
+	size = 5;
 
 display = document.getElementById('display');
 
@@ -26,6 +26,7 @@ dead = function (el, col, row) {
 	fieldData[row][col].alive = false;
 };
 
+// either the problem is here
 update = function (nextState) {
 	var r = 0,
 		c = 0;

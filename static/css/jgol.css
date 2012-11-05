@@ -57,3 +57,17 @@
 #ctrl div:hover{
 	cursor: pointer
 }
+
+#patterns{
+	padding: 10px 0px;
+	display: block;
+	clear: both;
+}
+
+#patterns div {
+	margin-bottom: 10px;
+}
+
+#patterns div:hover {
+	cursor: hand;
+}

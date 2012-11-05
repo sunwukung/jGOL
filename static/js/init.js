@@ -73,9 +73,13 @@ $(display).delegate('div.cell', 'click', function () {
 	}
 });
 
+// PATTERNS
+$('#patterns').delegate('div', 'click', function () {
+	var currentPtn = jgol.patterns[$(this).attr('id')];
+});
 
-// handle controls
 
+// CONTROLS
 start.click(function (ev) {
 	start.addClass('active');
 	ticker = window.setInterval(function () {

@@ -17,7 +17,7 @@ def pattern(family, genus):
 	#try:
 	p = controllers.patterns()
 	json = p.get(family, genus)
-	app.log(json)
+	app.logger.info(json)
 
 	res = Response(
 		response=json,

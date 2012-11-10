@@ -3,38 +3,49 @@ var jgol = (function (jgol) {
 	var posInt, 
 		dimension, 
 		makeCells,
-		scan,
-		offset,
-		torusOffset, 
-		boundOffset;
+		scan;
 
 	// PRIVATE 
 	// =========================================================
 
-
 	// TRANSFORMERS
 	// ---------------------------------------------------------
-	torusOffset = function (sum, lo, hi) {
-		return sum > hi 
-			? (sum - hi) - 1
-			: sum < lo 
-				? (hi + sum) + 1
-				: sum;
+
+	jgol.between = function (position, lo, hi) {
+		return lo < hi && position > lo && position < hi;
+	}
+
+	jgol.offsetTorus = function (position, lo, hi) {
+		return jgol.between(position, lo, hi) 
+			? position 
+			: false; // now calculate
 	};
 
-	boundOffset = function (sum, lo, hi) {
-		return sum > hi 
+	/*
+	jgol.offsetTorus = function (offset, lo, hi) {
+		return offset > hi 
+			? offset - hi
+			: offset < lo 
+				? offset > 0 
+					? (hi - (lo - offset)) + 1
+					: hi - ((lo - offset) -1)
+				: offset;
+	};
+	*/
+
+	jgol.offsetBound = function (offset, lo, hi) {
+		return offset > hi 
 			? hi 
-			: sum < lo
+			: offset < lo
 				? lo
-				: sum;
+				: offset;
 	};
 
 
 	jgol.offset = function (origin, offset, boundary, bound) {
 		return bound 
-			? boundOffset(origin + offset, 0, boundary) 
-			: torusOffset(origin + offset, 0, boundary);
+			? jgol.offsetBound(origin + offset, 0, boundary) 
+			: jgol.offsetTorus(origin + offset, 0, boundary);
 	};
 
 
@@ -42,8 +53,8 @@ var jgol = (function (jgol) {
 		return _.map([[-1, -1],[-1, 0],[-1, 1],[0, -1],[0, 0],[0, 1],[1, -1],[1, 0],[1, 1]
 			], function (offset) {
 				return [
-					jgol.offset(row, offset[0], cells.length, bound), 
-					jgol.offset(col, offset[1], cells[0].length, bound)
+					jgol.offset(row, offset[0], cells.length - 1, bound), 
+					jgol.offset(col, offset[1], cells[0].length - 1, bound)
 				];
 			});
 	};

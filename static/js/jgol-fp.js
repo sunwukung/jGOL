@@ -11,20 +11,6 @@ var jgol = (function (jgol) {
 	// TRANSFORMERS
 	// ---------------------------------------------------------
 
-	jgol.between = function (position, lo, hi) {
-		return lo < hi && (position >= lo && position <= hi);
-	};
-
-	jgol.difference = function (a, b) {
-		return a < b 
-			? b - a
-			: a - b;
-	}
-
-
-
-
-
 
 
 	jgol.offsetBound = function (offset, lo, hi) {
@@ -61,7 +47,7 @@ var jgol = (function (jgol) {
 
 	jgol.delta = function (row, col, cells, bound) {
 		// iterate over the required offsets - apply them to row,col
-		return _.map([[-1, -1],[-1, 0],[-1, 1],[0, -1],[0, 0],[0, 1],[1, -1],[1, 0],[1, 1]
+		return _.map([[-1, -1],[-1, 0],[-1, 1],[0, -1],[0, 1],[1, -1],[1, 0],[1, 1]
 			], function (offset) {
 				return [
 					jgol.offset(row, offset[0], cells.length - 1, bound), 
@@ -70,30 +56,38 @@ var jgol = (function (jgol) {
 			});
 	};
 
+	// QUERY
+	// ---------------------------------------------------------
 
-	scan = function (row, col, cells, toroidal) {
-
-		/*
-		return _.map(delta(cells, toroidal), function (xy) {
-			return cells
-				.slice(row + xy[0],(row + xy[0]) + 1)[0]
-				.slice(col + xy[1],(col + xy[1]) + 1)[0];
+	scan = function (row, col, cells, bound) {
+		return _.map(
+			jgol.delta(row, col, cells, bound),
+			function (xy) {
+				return cells
+					.slice(xy[0], xy[0]+1)[0]
+					.slice(xy[1], xy[1]+1)[0];
 			});
-*/
 	};	
 
 
-	// GENERATORS
-	// ---------------------------------------------------------
-
-	posInt = function (i) {
-		return parseInt(i) > 0;
-	}; 
-
-	dimension = function (w, h) {
-		return (posInt(w) && posInt(h)) ? w * h : false;
+	jgol.find = function (row, col, cells, bound){
+		var scanned = (bound === true)
+			? scan(row, col, cells, true)
+			: scan(row, col, cells, false);
+			console.log(scanned);
+		return _.reduce(scanned, function (memo, num) {
+			return memo + num;
+		});
 	};
 
+
+	// GENERATION
+	// ---------------------------------------------------------
+
+	jgol.generate = function (cols, rows) {
+		var d = dimension(cols, rows);
+		return d > 0 ? makeCells(cols, rows) : false;
+	};
 
 	makeCells = function (rows, cols) {
 		return _.map(_.range(rows), function(){
@@ -104,29 +98,28 @@ var jgol = (function (jgol) {
 	};
 
 
-	
-
-
-	// PUBLIC FUNCTIONS
+	// VALIDATORS
 	// =========================================================
 
+	posInt = function (i) {
+		return parseInt(i) > 0;
+	}; 
 
-	jgol.findLive = function (row, col, cells, bound){
-		var scanned =  bound ? 
-			scan(row, col, cells, false) :
-			scan(row, col, cells, true);
-
-		return _.reduce(scanned,
-			function (sum, cell) {
-				return sum + cell;
-			}) - 1;
+	dimension = function (w, h) {
+		return (posInt(w) && posInt(h)) ? w * h : false;
 	};
 
-
-	jgol.generate = function (cols, rows) {
-		var d = dimension(cols, rows);
-		return d > 0 ? makeCells(cols, rows) : false;
+	jgol.between = function (position, lo, hi) {
+		return lo < hi && (position >= lo && position <= hi);
 	};
+
+	jgol.difference = function (a, b) {
+		return a < b 
+			? b - a
+			: a - b;
+	}
+
+	
 
 
 	return jgol;

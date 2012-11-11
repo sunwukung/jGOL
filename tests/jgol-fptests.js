@@ -12,7 +12,7 @@ module('jgol-fp', {
 
 test('api',function () {
 	ok(q.isF(jgol.generate), 'jgol.generate');
-	ok(q.isF(jgol.findLive), 'jgol.findLive');
+	ok(q.isF(jgol.find), 'jgol.find');
 });
 
 
@@ -101,7 +101,7 @@ test('delta:standard', function () {
 	var delta = jgol.delta(2, 2, this.fixA),
 		exp = [
 			[1,1],[1,2],[1,3],
-			[2,1],[2,2],[2,3],
+			[2,1],[2,3],
 			[3,1],[3,2],[3,3]
 		];
 	deepEqual(delta, exp, 'delta');
@@ -112,7 +112,7 @@ test('delta:torus', function () {
 	ok(true);	
 		exp = [
 			[4,4],[4,0],[4,1],
-			[0,4],[0,0],[0,1],
+			[0,4],[0,1],
 			[1,4],[1,0],[1,1]
 		];
 	deepEqual(delta, exp, 'delta');
@@ -122,16 +122,18 @@ test('delta:bound', function () {
 	var delta = jgol.delta(0, 0, this.fixA, true),
 		exp = [
 			[0,0],[0,0],[0,1],
-			[0,0],[0,0],[0,1],
+			[0,0],[0,1],
 			[1,0],[1,0],[1,1]
 		];
 	deepEqual(delta, exp, 'delta used bound');
 });
 
-/*
-test('findLive:toroidal', function () {
-	var a = jgol.findLive(2, 2, this.fixA),
-		b = jgol.findLive(0, 0, this.fixA);
-	equal(n, 1, 'jgol.findLive -> sum of live adjacent cells');
+test('find:toroidal', function () {
+	var a = jgol.find(2, 2, this.fixA),
+		b = jgol.find(0, 0, this.fixA),
+		c = jgol.find(2, 4, this.fixA);
+	equal(a, 2, 'jgol.find -> sum of live adjacent cells');
+	equal(b, 2, 'jgol.find -> sum of live adjacent cells');
+	equal(c, 1, 'jgol.find -> sum of live adjacent cells');
+
 });
-*/

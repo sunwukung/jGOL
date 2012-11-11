@@ -133,7 +133,7 @@ test('find:toroidal', function () {
 		b = jgol.find(0, 0, this.fixA),
 		c = jgol.find(2, 4, this.fixA);
 	equal(a, 2, 'jgol.find -> sum of live adjacent cells');
-	equal(b, 2, 'jgol.find -> sum of live adjacent cells');
+	equal(b, 1, 'jgol.find -> sum of live adjacent cells');
 	equal(c, 1, 'jgol.find -> sum of live adjacent cells');
 
 });

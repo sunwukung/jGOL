@@ -74,7 +74,6 @@ var jgol = (function (jgol) {
 		var scanned = (bound === true)
 			? scan(row, col, cells, true)
 			: scan(row, col, cells, false);
-			console.log(scanned);
 		return _.reduce(scanned, function (memo, num) {
 			return memo + num;
 		});

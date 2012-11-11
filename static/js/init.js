@@ -1,67 +1,51 @@
 var display = document.getElementById('display'), 
-	fieldData, 
 	frag,
-	alive,
-	dead, 
-	scan,
-	update,
+	state,
 	ticker,
+	render,
 	fieldSize  = 10,
-	fieldLimit = 50,
+	dead, alive,
 	start = $('#start'), 
 	stop  = $('#stop'), 
 	step  = $('#step'),
 	reset = $('#reset'), 
 	size  = $('#size'),
-	show  = $('#show'),
-	showNeighbours = false;
+	show  = $('#show');
 
-fieldData = jgol.generateField(fieldSize);
 
-frag = jgol.generateFragment(fieldData);
-display.appendChild(frag);
+render = function (state) {
+	if(state === undefined) {
+		state = jgol.generate(fieldSize, fieldSize);
+	}
+	frag = jgol.toDOM(state);
+	display.innerHTML = '';
+	display.appendChild(frag);
+};
 
 alive = function (el, col, row) {
 	$(el).addClass('alive');
-	fieldData[row][col].alive = true;
+	state[row][col] = 1;
 };
 
 dead = function (el, col, row) {
 	$(el).removeClass('alive');
-	fieldData[row][col].alive = false;
+	state[row][col]= 0;
 };
 
-// either the problem is here
-update = function (nextState) {
-	var r = 0,
-		c = 0;
-	_.map(display.children, function (row) {
-		_.map(row.children, function (cell) {
-			if(nextState[r][c].alive){
-				alive(cell, c, r);
-			} else {
-				dead(cell, c, r);
-			}
-			c = c+1;
-		});
-		c = 0;
-		r = r+1;
-	});
-};
+// EDITOR
 
-
-//hook up interface
 $(display).delegate('div.cell', 'click', function () {
 	var that = $(this),
 		id = that.attr('id'),
 		xy = id.split('-'),
-		col = Number(xy[0].replace('x', '')),
-		row = Number(xy[1].replace('y', '')),
+		row = parseInt(xy[0]),
+		col = parseInt(xy[1]),
 		neighbours,
 		id;
+	/*
 	if(showNeighbours){
 		$('.scan').removeClass('scan');
-		neighbours = jgol.getNeighbours({x:col, y:row}, fieldData);
+		neighbours = jgol.getNeighbours({x:col, y:row}, state);
 		$('#x' + col + '-y' + row).addClass('scan');
 		_.map(neighbours, function (i){
 			id = '#x' + i.x + '-y' + i.y;
@@ -69,22 +53,19 @@ $(display).delegate('div.cell', 'click', function () {
 		});
 		//add the scan class to the zone
 	} else {
-		that.hasClass('alive') ? dead(that, col, row): alive(that, col, row);
 	}
-});
-
-// PATTERNS
-$('#patterns').delegate('div', 'click', function () {
-	var currentPtn = jgol.patterns[$(this).attr('id')];
+		*/
+	that.hasClass('alive') ? dead(that, col, row): alive(that, col, row);
 });
 
 
 // CONTROLS
+
 start.click(function (ev) {
 	start.addClass('active');
 	ticker = window.setInterval(function () {
-		fieldData = jgol.nextState(fieldData);
-		update(fieldData);
+		state = jgol.evolve(state);
+		render(state);
 	}, 100);
 });
 
@@ -95,20 +76,19 @@ stop.click(function () {
 
 step.click(function () {
 	window.clearInterval(ticker);
-	fieldData = jgol.nextState(fieldData);
-	update(fieldData);
+	state = jgol.evolve(state);
+	render(state);
 })
 
 
 reset.click(function () {
 	window.clearInterval(ticker);
-	var fresh = jgol.generateField(fieldSize);
-	update(fresh);
+	state = jgol.generate(fieldSize);
+	render(state);
 });
 
 size.submit(function () {
 	window.clearInterval(ticker);
-
 	var v = $("input:first").val(),
 		fresh;
 	if ($.isNumeric(v)) {
@@ -117,8 +97,8 @@ size.submit(function () {
 		v = (v % 2 > 0) ? Math.floor(v / 2) * 2 : v;
 		fieldSize = v;
 		
-		fieldData = jgol.generateField(fieldSize);
-		frag = jgol.generateFragment(fieldData);
+		state = jgol.generate(fieldSize, fieldSize);
+		frag = jgol.toDOM(state);
 
 		display.innerHTML='';
 		display.appendChild(frag);
@@ -139,3 +119,5 @@ show.click(function () {
 		show.addClass('active');
 	}
 });
+
+render();

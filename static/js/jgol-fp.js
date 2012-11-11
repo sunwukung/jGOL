@@ -12,26 +12,20 @@ var jgol = (function (jgol) {
 	// ---------------------------------------------------------
 
 	jgol.between = function (position, lo, hi) {
-		return lo < hi && position > lo && position < hi;
+		return lo < hi && (position >= lo && position <= hi);
+	};
+
+	jgol.difference = function (a, b) {
+		return a < b 
+			? b - a
+			: a - b;
 	}
 
-	jgol.offsetTorus = function (position, lo, hi) {
-		return jgol.between(position, lo, hi) 
-			? position 
-			: false; // now calculate
-	};
 
-	/*
-	jgol.offsetTorus = function (offset, lo, hi) {
-		return offset > hi 
-			? offset - hi
-			: offset < lo 
-				? offset > 0 
-					? (hi - (lo - offset)) + 1
-					: hi - ((lo - offset) -1)
-				: offset;
-	};
-	*/
+
+
+
+
 
 	jgol.offsetBound = function (offset, lo, hi) {
 		return offset > hi 
@@ -39,6 +33,22 @@ var jgol = (function (jgol) {
 			: offset < lo
 				? lo
 				: offset;
+	};
+
+	jgol.torusLo = function (position, lo, hi) {
+		return (hi - jgol.difference(position, lo)) + 1; 
+	};
+	
+	jgol.torusHi = function (position, lo, hi) {
+		return (lo + jgol.difference(position, hi)) - 1;
+	};
+
+	jgol.offsetTorus = function (position, lo, hi) {
+		return jgol.between(position, lo, hi) 
+			? position 
+			: position < lo 
+				? jgol.torusLo(position, lo, hi)
+				: jgol.torusHi(position, lo, hi);
 	};
 
 
@@ -50,6 +60,7 @@ var jgol = (function (jgol) {
 
 
 	jgol.delta = function (row, col, cells, bound) {
+		// iterate over the required offsets - apply them to row,col
 		return _.map([[-1, -1],[-1, 0],[-1, 1],[0, -1],[0, 0],[0, 1],[1, -1],[1, 0],[1, 1]
 			], function (offset) {
 				return [

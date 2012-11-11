@@ -1,4 +1,4 @@
-module('jgol-calc', {
+module('jgol-fp', {
 	setup : function () {
 		this.fixA = [
 				[0,0,0,0,0],
@@ -43,37 +43,50 @@ test('between', function () {
 	equal(d, false, '3 < 1 > 2 = false');
 });
 
+
+test('difference', function () {
+	var a = jgol.difference(10, 20),
+		b = jgol.difference(0, 10),
+		c = jgol.difference(-5, 5),
+		d = jgol.difference(-5, -10);
+
+	equal(a, 10,'10 ~ 20  = 10');
+	equal(b, 10,' 0 ~ 10  = 10');
+	equal(c, 10,'-5 ~ 5   = 10');
+	equal(d, 5, '-5 ~ -10 = 5');
+});
+
+test('torusLo', function () {
+	var a = jgol.torusLo(4, 5, 10),
+		b = jgol.torusLo(0, 5, 10),
+		c = jgol.torusLo(-1, 5, 10),
+		d = jgol.torusLo(-6, -5, -10);
+
+	equal(a, 10, ' 4 -> 5:10   = 10');
+	equal(b, 6,  ' 0 -> 5:10   = 6');
+	equal(c, 5,  '-1 -> 5:10   = 5');
+	equal(d, -10,'-6 -> -5:-10 = -10');
+});
+
+test('torusHi', function () {
+	var a = jgol.torusHi(6, 1, 5),
+		b = jgol.torusHi(0, 1, 10),
+		c = jgol.torusHi(-11, -5, -10);
+
+	equal(a, 1, ' 6  -> 1:5  = 1');
+	equal(b, 10,' 0  -> 1:10 = 10');
+	equal(c, -5,'-11 -> -5:-10 = -5');
+});
+
 // to refactor 
 test('offsetTorus', function () {
 	var a = jgol.offsetTorus(2, 1, 3),
 		b = jgol.offsetTorus(-1, -2, 0),
 		c = jgol.offsetTorus(5, 10, 20);
 
-	equal(a, 2,  '1 < 2 > 3 = 2');
-	equal(b, -1,  '-2 < -1 > 0 = -1');
-	equal(c, 15, '5 : 10-20 = 15');
-	//equal(c, 15, '5 : 10-20 = 15');
-	//equal(c, 15, '5 : 10-20 = 15');
-	//equal(c, 15, '5 : 10-20 = 15');
-});
-
-
-
-/*
-
-test('offsetTorus', function () {
-	var torusA = jgol.offsetTorus(-1, 0, 4),
-		torusB = jgol.offsetTorus(4, 5, 10),
-		torusC = jgol.offsetTorus(5, 1, 4),
-		torusD = jgol.offsetTorus(7, 1, 4),
-		torusE = jgol.offsetTorus(0, 1, 4);
-
-
-    equal(torusA, 4,  'range 0-4, offset: -1 = 4');
-	equal(torusB, 10, 'range 5-10, offset: 4(-1 rel 5) = 10');
-	equal(torusC, 1,  'range 1-4, offset: 5(+1 rel 4) = 1');
-	equal(torusD, 3, 'range 1-4, offset: 7(+3 rel 4) = 3');
-	equal(torusE, 4, 'range 1-4, offset: 0(-1 rel 1) = 4');
+	equal(a, 2,  '2  -> 1:3  = 2');
+	equal(b, -1, '-1 -> -1:0 = -1');
+	equal(c, 16, '5  -> 10:20 = 16');
 });
 
 test('offsetBound', function () {
@@ -95,7 +108,8 @@ test('delta:standard', function () {
 });
 
 test('delta:torus', function () {
-	var delta = jgol.delta(0, 0, this.fixA),
+	var delta = jgol.delta(0, 0, this.fixA);
+	ok(true);	
 		exp = [
 			[4,4],[4,0],[4,1],
 			[0,4],[0,0],[0,1],
@@ -113,9 +127,6 @@ test('delta:bound', function () {
 		];
 	deepEqual(delta, exp, 'delta used bound');
 });
-
-
-/*
 
 /*
 test('findLive:toroidal', function () {

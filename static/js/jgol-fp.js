@@ -69,14 +69,34 @@ var jgol = (function (jgol) {
 			});
 	};	
 
+	jgol.resolve = function (cell, neighbours) {
+		return cell === 1 
+			? jgol.between(neighbours, 2, 3)
+			: neighbours === 3
+	};
 
-	jgol.find = function (row, col, cells, bound){
+
+	jgol.findLive = function (row, col, cells, bound){
 		var scanned = (bound === true)
 			? scan(row, col, cells, true)
 			: scan(row, col, cells, false);
 		return _.reduce(scanned, function (memo, num) {
 			return memo + num;
 		});
+	};
+
+	jgol.evolve = function (startState, bound) {
+		var row, col;
+		return _.map(startState, function (currentRow) {
+				row = arguments[1];
+				return _.map(currentRow, function (currentCell) {
+					col = arguments[1];
+					return jgol.resolve(
+						currentCell, 
+						jgol.findLive(row, col, startState, bound)
+						) ? 1 : 0;
+				});
+			});
 	};
 
 
@@ -117,9 +137,6 @@ var jgol = (function (jgol) {
 			? b - a
 			: a - b;
 	}
-
-	
-
 
 	return jgol;
 

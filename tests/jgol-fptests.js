@@ -12,7 +12,7 @@ module('jgol-fp', {
 
 test('api',function () {
 	ok(q.isF(jgol.generate), 'jgol.generate');
-	ok(q.isF(jgol.find), 'jgol.find');
+	ok(q.isF(jgol.findLive), 'jgol.findLive');
 });
 
 
@@ -128,12 +128,51 @@ test('delta:bound', function () {
 	deepEqual(delta, exp, 'delta used bound');
 });
 
-test('find:toroidal', function () {
-	var a = jgol.find(2, 2, this.fixA),
-		b = jgol.find(0, 0, this.fixA),
-		c = jgol.find(2, 4, this.fixA);
-	equal(a, 2, 'jgol.find -> sum of live adjacent cells');
-	equal(b, 1, 'jgol.find -> sum of live adjacent cells');
-	equal(c, 1, 'jgol.find -> sum of live adjacent cells');
+test('findLive:toroidal', function () {
+	var a = jgol.findLive(2, 2, this.fixA),
+		b = jgol.findLive(0, 0, this.fixA),
+		c = jgol.findLive(2, 4, this.fixA);
+	equal(a, 2, 'jgol.findLive -> sum of live adjacent cells');
+	equal(b, 1, 'jgol.findLive -> sum of live adjacent cells');
+	equal(c, 1, 'jgol.findLive -> sum of live adjacent cells');
 
 });
+
+test('resolve:survival', function () {
+	var a = jgol.resolve(1,1),
+		b = jgol.resolve(1,2),
+		c = jgol.resolve(1,3),
+		d = jgol.resolve(1,4);
+
+	equal(a, false,'live with less than 2 dies');
+	equal(b, true, 'live with 2 neighbours survives');
+	equal(c, true, 'live with 3 neighbours survives');
+	equal(d, false,'live with more than 3 dies');
+});
+
+test('resolve:birth', function () {
+	var a = jgol.resolve(0,2),
+		b = jgol.resolve(0,3),
+		c = jgol.resolve(0,4);
+
+	equal(a, false, 'dead with less than 3 stays dead');
+	equal(b, true, 'dead with 3 is birthed');
+	equal(c, false, 'dead with more than 3 stays dead');
+
+});
+
+test('evolve', function () {
+	var evolved = jgol.evolve(this.fixA),
+		expected = [
+		[0,0,0,0,0],
+		[0,0,0,0,0],
+		[0,0,1,0,0],
+		[0,0,0,0,0],
+		[0,0,0,0,0]
+		];
+
+	deepEqual(evolved, expected);
+
+});
+/*
+*/

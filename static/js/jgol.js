@@ -120,20 +120,21 @@ var jgol = (function (jgol) {
 		var frag = document.createDocumentFragment('div'),
 			row,
 			nRow, 
-			cell;
+			cell, 
+			cellClass;
 		_.map(state, function (row) {
 			nRow = arguments[1];
 			row = document.createElement('div');
 			row.setAttribute('class', 'row');
-			_.map(state[arguments[1]], function (cell) {
+			_.map(state[arguments[1]], function (c) {
 				cell = document.createElement('div');
 				cell.setAttribute('id', nRow + '-' + arguments[1]);	
-				cell.setAttribute('class', 'cell');
+				cellClass = (c === 1) ? 'cell alive': 'cell';
+				cell.setAttribute('class', cellClass);
 				row.appendChild(cell);
 			});
 			frag.appendChild(row);
 		});
-
 		return frag;
 	};
 

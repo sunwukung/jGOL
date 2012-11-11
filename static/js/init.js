@@ -3,7 +3,8 @@ var display = document.getElementById('display'),
 	state,
 	ticker,
 	render,
-	fieldSize  = 10,
+	fieldSize  = 20,
+	fieldLimit = 50,
 	dead, alive,
 	start = $('#start'), 
 	stop  = $('#stop'), 
@@ -12,15 +13,17 @@ var display = document.getElementById('display'),
 	size  = $('#size'),
 	show  = $('#show');
 
-
+// @ TODO - not passing active state back into the render function
 render = function (state) {
 	if(state === undefined) {
+		console.log('state is undefined');
 		state = jgol.generate(fieldSize, fieldSize);
 	}
 	frag = jgol.toDOM(state);
 	display.innerHTML = '';
 	display.appendChild(frag);
 };
+
 
 alive = function (el, col, row) {
 	$(el).addClass('alive');
@@ -39,22 +42,8 @@ $(display).delegate('div.cell', 'click', function () {
 		id = that.attr('id'),
 		xy = id.split('-'),
 		row = parseInt(xy[0]),
-		col = parseInt(xy[1]),
-		neighbours,
-		id;
-	/*
-	if(showNeighbours){
-		$('.scan').removeClass('scan');
-		neighbours = jgol.getNeighbours({x:col, y:row}, state);
-		$('#x' + col + '-y' + row).addClass('scan');
-		_.map(neighbours, function (i){
-			id = '#x' + i.x + '-y' + i.y;
-			$(id).addClass('scan');
-		});
-		//add the scan class to the zone
-	} else {
-	}
-		*/
+		col = parseInt(xy[1]);
+
 	that.hasClass('alive') ? dead(that, col, row): alive(that, col, row);
 });
 
@@ -63,10 +52,12 @@ $(display).delegate('div.cell', 'click', function () {
 
 start.click(function (ev) {
 	start.addClass('active');
+		//console.log(state);
+		//console.log(jgol.evolve(state));
 	ticker = window.setInterval(function () {
 		state = jgol.evolve(state);
 		render(state);
-	}, 100);
+	}, 50);
 });
 
 stop.click(function () {
@@ -83,7 +74,7 @@ step.click(function () {
 
 reset.click(function () {
 	window.clearInterval(ticker);
-	state = jgol.generate(fieldSize);
+	state = jgol.generate(fieldSize, fieldSize);
 	render(state);
 });
 
@@ -98,26 +89,14 @@ size.submit(function () {
 		fieldSize = v;
 		
 		state = jgol.generate(fieldSize, fieldSize);
-		frag = jgol.toDOM(state);
-
-		display.innerHTML='';
-		display.appendChild(frag);
+		render(state);
 		}
 	}
 
 	return false;
 });
 
-show.click(function () {
-	// toggles neighbour scan
-	showNeighbours = showNeighbours ? false : true;
-	if(show.hasClass('active')){
-		// remove scan class
-		$('.scan').removeClass('scan');
-		show.removeClass('active');
-	}else {
-		show.addClass('active');
-	}
-});
 
-render();
+state = jgol.generate(fieldSize, fieldSize);
+
+render(state);
